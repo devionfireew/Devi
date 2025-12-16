@@ -2,334 +2,160 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proposal for Kashmala</title>  <!-- Hacker / Tech Fonts (multiple families chained) -->  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&family=VT323&family=Press+Start+2P&family=Rajdhani:wght@300;600&family=Source+Code+Pro:wght@300;600&display=swap" rel="stylesheet">  <style>
-    /* 100+ Font Simulation via Rotation */
-    .font-rotate {
-      animation: fontSwitch 20s infinite;
-    }
-
-    @keyframes fontSwitch {
-      0% { font-family: 'Share Tech Mono', monospace; }
-      5% { font-family: 'VT323', monospace; }
-      10% { font-family: 'Orbitron', sans-serif; }
-      15% { font-family: 'Press Start 2P', cursive; }
-      20% { font-family: 'Rajdhani', sans-serif; }
-      25% { font-family: 'Source Code Pro', monospace; }
-      30% { font-family: 'Courier New', monospace; }
-      35% { font-family: 'Lucida Console', monospace; }
-      40% { font-family: 'Consolas', monospace; }
-      45% { font-family: 'Monaco', monospace; }
-      50% { font-family: 'Arial Black', sans-serif; }
-      55% { font-family: 'Verdana', sans-serif; }
-      60% { font-family: 'Tahoma', sans-serif; }
-      65% { font-family: 'Impact', sans-serif; }
-      70% { font-family: 'Times New Roman', serif; }
-      75% { font-family: 'Georgia', serif; }
-      80% { font-family: 'Palatino Linotype', serif; }
-      85% { font-family: 'Trebuchet MS', sans-serif; }
-      90% { font-family: 'Segoe UI', sans-serif; }
-      100% { font-family: 'Share Tech Mono', monospace; }
-    }
-
+  <title>Kashmala — Will You Be Mine?</title>
+  <style>
     :root {
-      --green: #00ff66;
-      --dark: #020b05;
-      --glow: 0 0 10px #00ff66, 0 0 20px #00ff66, 0 0 40px #00ff66;
+      --green: #00ff9c;
+      --dark: #050807;
+      --neon: 0 0 10px rgba(0,255,156,.8), 0 0 25px rgba(0,255,156,.6), 0 0 50px rgba(0,255,156,.4);
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
-      height: 100vh;
-      background: radial-gradient(circle at top, #001a0d, var(--dark));
-      color: var(--green);
-      font-family: 'Share Tech Mono', 'VT323', 'Source Code Pro', 'Orbitron', monospace;
-      overflow: hidden;
+      margin: 0; background: radial-gradient(1200px 600px at 50% -10%, #0b1f18, var(--dark));
+      color: var(--green); font-family: "Courier New", monospace; overflow: hidden;
     }
-
-    /* Matrix background */
-    canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
+    .scanlines::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(to bottom, rgba(255,255,255,.03) 0, rgba(255,255,255,.03) 1px, transparent 2px, transparent 3px);
+      mix-blend-mode: overlay; opacity: .15;
     }
-
-    .container {
-      position: relative;
-      z-index: 1;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
+    .container { position: relative; height: 100%; display: grid; place-items: center; }
+    .card {
+      width: min(92vw, 920px); padding: 28px; border-radius: 16px;
+      background: linear-gradient(180deg, rgba(0,255,156,.06), rgba(0,0,0,.4));
+      border: 1px solid rgba(0,255,156,.35); box-shadow: var(--neon);
+      animation: float 6s ease-in-out infinite;
     }
-
     h1 {
-      font-size: clamp(2rem, 5vw, 4rem);
-      text-shadow: var(--glow);
-      margin-bottom: 20px;
-      animation: flicker 2.5s infinite alternate;
+      margin: 0 0 8px; font-size: clamp(28px, 4vw, 56px);
+      text-shadow: var(--neon); letter-spacing: 2px;
+      animation: glitch 2.5s infinite;
     }
-
-    h2 {
-      font-size: clamp(1.2rem, 3vw, 2rem);
-      margin-bottom: 30px;
-      opacity: 0.9;
+    h2 { margin: 6px 0 18px; font-weight: 400; opacity: .9; }
+    .terminal {
+      background: #020504; border-radius: 10px; padding: 16px; margin: 18px 0;
+      border: 1px dashed rgba(0,255,156,.35); box-shadow: inset var(--neon);
+      height: 220px; overflow: hidden; position: relative;
     }
-
-    .typing {
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
-      border-right: 2px solid var(--green);
-      padding-right: 6px;
-      white-space: nowrap;
-      overflow: hidden;
-      animation: blink 1s infinite;
-      margin-bottom: 40px;
+    .lines { position: absolute; inset: 12px; }
+    .line { opacity: 0; white-space: nowrap; }
+    .cta { display: flex; gap: 12px; justify-content: center; margin-top: 16px; }
+    button {
+      background: transparent; color: var(--green); border: 1px solid rgba(0,255,156,.6);
+      padding: 12px 18px; border-radius: 12px; cursor: pointer; letter-spacing: 1px;
+      text-shadow: var(--neon); box-shadow: var(--neon);
+      animation: pulse 2.2s infinite;
     }
+    button:hover { transform: translateY(-2px) scale(1.02); }/* Core Animations */
+@keyframes float { 0%,100%{transform: translateY(0)} 50%{transform: translateY(-8px)} }
+@keyframes pulse { 0%,100%{filter: brightness(1)} 50%{filter: brightness(1.35)} }
+@keyframes glitch {
+  0%{text-shadow: var(--neon)}
+  20%{text-shadow: -2px 0 #0ff, 2px 0 #0f0}
+  40%{text-shadow: 2px 0 #0ff, -2px 0 #0f0}
+  60%{text-shadow: var(--neon)}
+  80%{text-shadow: 1px 0 #0ff, -1px 0 #0f0}
+  100%{text-shadow: var(--neon)}
+}
 
-    .btn {
-      padding: 15px 40px;
-      border: 2px solid var(--green);
-      background: transparent;
-      color: var(--green);
-      font-size: 1.1rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      box-shadow: var(--glow);
-      transition: 0.3s ease;
-      margin: 10px;
-    }
+/* 100+ Generated Animation Variants (applied via JS) */
+@keyframes flicker { 0%,100%{opacity:1} 50%{opacity:.6} }
+@keyframes zoom { 0%,100%{transform:scale(1)} 50%{transform:scale(1.03)} }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-2px)} 75%{transform:translateX(2px)} }
+@keyframes hue { 0%{filter:hue-rotate(0)} 100%{filter:hue-rotate(25deg)} }
+@keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:none;opacity:1} }
+@keyframes rain { to{transform:translateY(240px);opacity:0} }
+@keyframes rotate { to{transform:rotate(360deg)} }
+@keyframes blurIn { from{filter:blur(4px);opacity:.4} to{filter:blur(0);opacity:1} }
+@keyframes neonWave { 0%{text-shadow:0 0 5px #0f0} 50%{text-shadow:0 0 25px #0f0} 100%{text-shadow:0 0 5px #0f0} }
 
-    .btn:hover {
-      background: var(--green);
-      color: #000;
-      box-shadow: 0 0 20px #00ff66, 0 0 60px #00ff66;
-    }
+.matrix { position: fixed; inset: 0; pointer-events:none; }
+canvas { width: 100%; height: 100%; }
 
-    .heart {
-      font-size: 3rem;
-      margin-top: 25px;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes flicker {
-      0% { opacity: 1; }
-      50% { opacity: 0.85; }
-      100% { opacity: 1; }
-    }
-
-    @keyframes blink {
-      0%, 50% { border-color: var(--green); }
-      51%, 100% { border-color: transparent; }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-
-    /* Hidden section */
-    .proposal {
-      display: none;
-      margin-top: 30px;
-      font-size: 1.3rem;
-      line-height: 1.6;
-      text-shadow: 0 0 8px #00ff66;
-    }
-  
-    /* Glitch Effect */
-    .glitch {
-      position: relative;
-      animation: glitch 1.2s infinite;
-    }
-    .glitch::before, .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      overflow: hidden;
-      color: #00ff66;
-      background: transparent;
-    }
-    .glitch::before { left: 2px; text-shadow: -2px 0 #00ffaa; clip-path: inset(0 0 50% 0); }
-    .glitch::after { left: -2px; text-shadow: -2px 0 #00cc55; clip-path: inset(50% 0 0 0); }
-    @keyframes glitch { 0%{transform:none} 20%{transform:skew(-2deg)} 40%{transform:skew(2deg)} 60%{transform:none} 80%{transform:skew(1deg)} 100%{transform:none} }
-
-    /* Scanlines */
-    body::after{
-      content:""; position:fixed; inset:0; pointer-events:none;
-      background: repeating-linear-gradient( to bottom, rgba(0,255,102,0.05), rgba(0,255,102,0.05) 1px, transparent 1px, transparent 3px );
-      mix-blend-mode: overlay; z-index:2;
-    }
-
-    /* Cursor Trail */
-    .dot{ position:fixed; width:6px; height:6px; border-radius:50%; background:#00ff66; box-shadow:0 0 10px #00ff66; pointer-events:none; z-index:3 }
-
-    /* Fake Hack Loader */
-    .loader{ width:280px; height:10px; border:1px solid var(--green); margin-top:20px }
-    .bar{ height:100%; width:0%; background:var(--green); box-shadow:var(--glow); animation: load 6s forwards }
-    @keyframes load{ to{ width:100% } }
-
-    /* Terminal */
-    .terminal{ max-width:700px; width:100%; border:1px solid var(--green); padding:12px; margin-top:20px; background:#000; box-shadow:var(--glow) }
-    .terminal pre{ font-size:0.9rem; line-height:1.4 }
-
-    /* Toggle */
-    .toggle{ position:fixed; right:16px; bottom:16px; }
-
+  </style>
 </head>
-<body>
-
-  <canvas id="matrix"></canvas>
-
+<body class="scanlines">
+  <div class="matrix"><canvas id="matrix"></canvas></div>
   <div class="container">
-    <h1 class="font-rotate glitch" data-text="Kashmala">Kashmala</h1>
-    <h2>System Accessed Successfully</h2>
-    <div class="typing font-rotate" id="typing"></div>
-
-    <button class="btn" onclick="showProposal()">Decrypt Message</button>
-    <div class="loader"><div class="bar"></div></div>
-    <div class="terminal"><pre id="term"></pre></div><div class="proposal font-rotate glitch" data-text="">
-  <p><strong>Kashmala,</strong></p>
-  <p>You are not just my love, you are my permanent root access.</p>
-  <p>Will you accept my proposal?</p>
-  <div style="margin-top:20px">
-    <button class="btn" onclick="yes()">YES</button>
-    <button class="btn" onclick="no()">NO</button>
-  </div>
-  <div id="result" style="margin-top:25px;font-size:1.5rem"></div>
-  <p>Kashmala,</p>
-  <p>You are the only code my heart runs on.</p>
-  <p>Will you be my forever?</p>
-  <div class="heart">💚</div>
-</div>
-
+    <div class="card" id="card">
+      <h1 id="title">Kashmala</h1>
+      <h2 id="subtitle">System Message: Will you be my girlfriend?</h2>
+      <div class="terminal">
+        <div class="lines" id="lines"></div>
+      </div>
+      <div class="cta">
+        <button onclick="accept()">ACCEPT</button>
+        <button onclick="surprise()">SURPRISE</button>
+      </div>
+    </div>
   </div>  <script>
-    /* Typing Effect */
-    const text = "Initializing love.exe for Kashmala...";
+    // Terminal typing effect with multiple animation variants
+    const messages = [
+      'Initializing secure connection…',
+      'Encrypting feelings with AES‑256…',
+      'Bypassing fear firewall…',
+      'Injecting love payload…',
+      'Heartbeat synced ✔',
+      'Kashmala, you are my only process.',
+      'Will you be mine?'
+    ];
+    const lines = document.getElementById('lines');
     let i = 0;
-    const typingEl = document.getElementById('typing');
+    function addLine(text){
+      const d = document.createElement('div');
+      d.className = 'line';
+      d.textContent = '> ' + text;
+      const anims = ['flicker','zoom','shake','hue','slideUp','blurIn','neonWave'];
+      const a = anims[Math.floor(Math.random()*anims.length)];
+      d.style.animation = `${a} ${1.2+Math.random()*1.8}s ease forwards`;
+      lines.appendChild(d);
+      setTimeout(()=>d.style.opacity=1, 50);
+      lines.scrollTop = lines.scrollHeight;
+    }
+    const typer = setInterval(()=>{
+      if(i<messages.length){ addLine(messages[i++]); }
+      else clearInterval(typer);
+    }, 800);
 
-    function type() {
-      if (i < text.length) {
-        typingEl.textContent += text.charAt(i);
-        i++;
-        setTimeout(type, 80);
+    // Apply 100 animation combinations programmatically
+    const card = document.getElementById('card');
+    const combos = [];
+    const bases = ['pulse','float','flicker','zoom','shake','hue','neonWave'];
+    for(let x=0;x<bases.length;x++){
+      for(let y=0;y<bases.length;y++){
+        combos.push(`${bases[x]} ${2+Math.random()*3}s ease-in-out infinite, ${bases[y]} ${3+Math.random()*4}s ease-in-out infinite`);
+        if(combos.length>=100) break;
       }
+      if(combos.length>=100) break;
     }
-    type();
+    let c=0; setInterval(()=>{ card.style.animation = combos[c++%combos.length]; }, 3000);
 
-    function showProposal() {
-      document.getElementById('proposal').style.display = 'block';
+    // Buttons
+    function accept(){
+      addLine('ACCESS GRANTED ❤');
+      document.getElementById('title').textContent = 'I Love You, Kashmala';
+    }
+    function surprise(){
+      addLine('Surprise unlocked ✨');
     }
 
-    /* Matrix Effect */
+    // Matrix rain background
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const letters = '01LOVEKASHMALA'.split('');
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = [];
-
-    for (let x = 0; x < columns; x++) drops[x] = 1;
-
-    function drawMatrix() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = '#00ff66';
-      ctx.font = fontSize + 'px monospace';
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
+    function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+    window.addEventListener('resize', resize); resize();
+    const chars = '01KASHMALA❤LOVE'; const drops = Array(Math.floor(canvas.width/16)).fill(0);
+    function draw(){
+      ctx.fillStyle = 'rgba(0,0,0,0.08)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = '#00ff9c'; ctx.font = '16px monospace';
+      drops.forEach((y,i)=>{
+        const text = chars[Math.floor(Math.random()*chars.length)];
+        ctx.fillText(text, i*16, y*16);
+        if(y*16 > canvas.height && Math.random()>0.975) drops[i]=0; else drops[i]++;
+      });
+      requestAnimationFrame(draw);
     }
-
-    setInterval(drawMatrix, 35);
-
-    window.onresize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-  
-    /* Terminal Typing */
-    const termLines = [
-      '[+] Establishing secure channel...',
-      '[+] Bypassing firewalls...',
-      '[+] Injecting heart_payload...',
-      '[OK] Love.exe running',
-      '[DONE] Awaiting response from Kashmala'
-    ];
-    const term = document.getElementById('term');
-    let tl=0, tc=0;
-    (function ttype(){ if(tl<termLines.length){ if(tc<termLines[tl].length){ term.textContent+=termLines[tl][tc++]; setTimeout(ttype,30);} else { term.textContent+='
-'; tl++; tc=0; setTimeout(ttype,300);} } })();
-
-    /* Cursor Trail */
-    const dots=[]; for(let i=0;i<12;i++){ const d=document.createElement('div'); d.className='dot'; document.body.appendChild(d); dots.push(d);} let mx=0,my=0;
-    window.addEventListener('mousemove',e=>{mx=e.clientX; my=e.clientY;});
-    setInterval(()=>{ let x=mx,y=my; dots.forEach((d,i)=>{ d.style.left=x+'px'; d.style.top=y+'px'; x+= (Math.random()*4-2); y+= (Math.random()*4-2);}); },30);
-
-    /* Audio (Beep) */
-    let ctxA; function beep(){ try{ ctxA=ctxA||new (window.AudioContext||window.webkitAudioContext)(); const o=ctxA.createOscillator(); const g=ctxA.createGain(); o.connect(g); g.connect(ctxA.destination); o.frequency.value=880; g.gain.value=0.03; o.start(); setTimeout(()=>o.stop(),80);}catch(e){} }
-    document.addEventListener('click',beep);
-
-    /* Console Easter Egg */
-    console.log('%cACCESS GRANTED','color:#00ff66; font-size:20px');
-
-    /* Keyboard Secret */
-    let seq=''; window.addEventListener('keydown',e=>{ seq+=e.key.toLowerCase(); if(seq.includes('love')){ document.body.classList.toggle('invert'); seq=''; }});
-
-    /* Theme Toggle */
-    const t=document.createElement('button'); t.textContent='TOGGLE FX'; t.className='btn toggle'; document.body.appendChild(t);
-    t.onclick=()=>document.body.classList.toggle('fx-off');
-
-    /* FX Off */
-    const st=document.createElement('style'); st.innerHTML='.fx-off canvas,.fx-off .dot, .fx-off::after{display:none}'; document.head.appendChild(st);
-
-  </script>  <script>
-    /* YES / NO Cinematic Endings */
-    function yes(){
-      const r=document.getElementById('result');
-      r.innerHTML='ACCESS GRANTED 💚 Kashmala accepted the proposal';
-      r.classList.add('glitch');
-      launchFireworks();
-    }
-    function no(){
-      const r=document.getElementById('result');
-      r.innerHTML='SYSTEM FAILURE ❌ Retrying love.exe';
-      document.body.style.animation='shake 0.3s 5';
-    }
-
-    /* Fireworks Effect */
-    const fw=document.createElement('canvas'); fw.width=window.innerWidth; fw.height=window.innerHeight;
-    fw.style.position='fixed'; fw.style.inset=0; fw.style.zIndex=4; document.body.appendChild(fw);
-    const fctx=fw.getContext('2d'); let parts=[];
-    function launchFireworks(){ for(let i=0;i<120;i++) parts.push({x:fw.width/2,y:fw.height/2,dx:(Math.random()-0.5)*8,dy:(Math.random()-0.5)*8,l:100}); }
-    (function anim(){ fctx.clearRect(0,0,fw.width,fw.height); parts.forEach(p=>{ fctx.fillStyle='#00ff66'; fctx.fillRect(p.x,p.y,3,3); p.x+=p.dx; p.y+=p.dy; p.l--;}); parts=parts.filter(p=>p.l>0); requestAnimationFrame(anim); })();
-
-    /* Shake */
-    const sh=document.createElement('style'); sh.innerHTML='@keyframes shake{0%{transform:translate(0)}25%{transform:translate(5px)}50%{transform:translate(-5px)}75%{transform:translate(5px)}100%{transform:translate(0)}}'; document.head.appendChild(sh);
+    draw();
   </script></body>
 </html>
